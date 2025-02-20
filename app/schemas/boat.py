@@ -44,7 +44,7 @@ class BoatRead(BoatBase):
 
 
 class BoatUpdate(BoatBase):
-    name: str = None
-    seats: int | None = None
-    speed: float | None = None
+    name: str = Field(default=None, max_length=20, min_length=1)
+    seats: int | None = Field(default=None, le=6, ge=1)
+    speed: float | None = Field(default=None, le=4, ge=0)
     direction: BoatDirection = None
