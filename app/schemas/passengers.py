@@ -7,7 +7,9 @@ class PassengerBase(SQLModel):
 
 class Passenger(PassengerBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
-    boat_id: int | None = Field(default=1, foreign_key='boat.id')
+    boat_id: int | None = Field(
+        default=1, foreign_key='boat.id', nullable=True
+    )
 
 
 class PassengerRead(PassengerBase):

@@ -41,10 +41,3 @@ class BoatRead(BoatBase):
     @property
     def age(self) -> int:
         return (date.today() - self.created_at).days
-
-
-class BoatUpdate(BoatBase):
-    name: str = Field(default=None, max_length=20, min_length=1)
-    seats: int | None = Field(default=None, le=6, ge=1)
-    speed: float | None = Field(default=None, le=4, ge=0)
-    direction: BoatDirection = None
