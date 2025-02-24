@@ -1,4 +1,5 @@
-from sqlmodel import create_engine, Session, SQLModel
+from sqlmodel import Session, SQLModel, create_engine
+
 from schemas.boat import Boat
 from schemas.passengers import Passenger
 
@@ -11,11 +12,13 @@ engine = create_engine(sqlite_url, connect_args=connect_args)
 
 
 def get_session():
+    '''Session с БД'''
     with Session(engine) as session:
         yield session
 
 
 def create_boat():
+    '''Создание лодки с дефолтными значениями и двумя пассажирами в базе'''
     session: Session = next(get_session())
     boat = session.get(Boat, 1)
     if not boat:
@@ -27,5 +30,6 @@ def create_boat():
 
 
 def create_table_and_boat():
+    '''Создание таблиц и добавление лодки'''
     SQLModel.metadata.create_all(engine)
     create_boat()

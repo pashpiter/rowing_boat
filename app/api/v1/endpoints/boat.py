@@ -1,13 +1,15 @@
-from fastapi import APIRouter, Depends, HTTPException, status, Query
-from sqlmodel import Session, select
-from schemas.boat import Boat, BoatRead, BoatDirection
-from schemas.passengers import Passenger
-from db.database import get_session
 from typing import Annotated
+
+from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy.engine import Result
+from sqlmodel import Session, select
+
+from db.database import get_session
+from schemas.boat import Boat, BoatDirection, BoatRead
+from schemas.passengers import Passenger
 
 
-BOAT_ID = 1
+BOAT_ID: int = 1
 
 router = APIRouter(prefix='/boat')
 
@@ -16,6 +18,7 @@ router = APIRouter(prefix='/boat')
 async def get_boat(
     session: Session = Depends(get_session)
 ) -> BoatRead:
+    '''Возвращает лодку с параметрами'''
     return session.get(Boat, BOAT_ID)
 
 
@@ -27,6 +30,7 @@ async def update_boat(
     speed: Annotated[float, Query(le=4, ge=0)] = None,
     direction: BoatDirection = None
 ) -> BoatRead:
+    '''Изменение полей лодки'''
     boat = session.get(Boat, BOAT_ID)
     if not boat:
         raise HTTPException(
@@ -54,9 +58,10 @@ async def update_boat(
 
 @router.patch('/add_passenger')
 async def add_passenger(
-    session: Session = Depends(get_session),
-    name: str = None
+    name: str,
+    session: Session = Depends(get_session)
 ) -> BoatRead:
+    '''Добавление пассажиров в лодку'''
     boat = session.get(Boat, BOAT_ID)
     stmt = select(Passenger).where(Passenger.name == name)
     result: Result = session.exec(stmt)
@@ -77,9 +82,10 @@ async def add_passenger(
 
 @router.patch('/delete_passenger')
 async def delete_passenger(
-    session: Session = Depends(get_session),
-    name: str = None
+    name: str,
+    session: Session = Depends(get_session)
 ) -> BoatRead:
+    '''Удаление пассажиров с лодки'''
     stmt = select(Passenger).where(
         Passenger.name == name, Passenger.boat_id == BOAT_ID
     )

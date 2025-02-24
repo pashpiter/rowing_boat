@@ -1,12 +1,15 @@
-from sqlmodel import SQLModel, Field, Relationship
-from pydantic import model_validator, computed_field
+from datetime import date
 from enum import Enum
 from typing import List
+
+from pydantic import computed_field, model_validator
+from sqlmodel import Field, Relationship, SQLModel
+
 from schemas.passengers import Passenger, PassengerRead
-from datetime import date
 
 
 class BoatDirection(str, Enum):
+    '''Направления движения лодки'''
     FORWARD = 'Вперед'
     BACK = 'Назад'
 

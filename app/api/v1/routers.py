@@ -1,4 +1,5 @@
 from fastapi import APIRouter
+
 from api.v1.endpoints.boat import router as boat_router
 
 
