@@ -1,5 +1,4 @@
 from sqlmodel import create_engine, Session, SQLModel
-from fastapi import Depends
 from schemas.boat import Boat
 from schemas.passengers import Passenger
 

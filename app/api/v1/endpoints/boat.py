@@ -87,7 +87,7 @@ async def delete_passenger(
     if not passenger:
         raise HTTPException(
             status.HTTP_400_BAD_REQUEST,
-            f'Человека с именем {name} нет на лодке'
+            f'Пассажира {name} нет на лодке'
         )
     passenger.sqlmodel_update({'boat_id': None})
     session.add(passenger)
